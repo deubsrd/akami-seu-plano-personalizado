@@ -109,6 +109,14 @@ export const generatePlan = createServerFn({ method: "POST" })
       period: data.budget_period,
     }, { onConflict: "user_id" });
 
+    // Salva cidade/CEP no perfil (usado no preço colaborativo por região)
+    if (data.city || data.postal_code) {
+      await supabase.from("profiles").update({
+        ...(data.city && { city: data.city }),
+        ...(data.postal_code && { postal_code: data.postal_code }),
+      }).eq("id", userId);
+    }
+
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("LOVABLE_API_KEY não configurado");
     const gateway = createLovableAiGatewayProvider(apiKey);

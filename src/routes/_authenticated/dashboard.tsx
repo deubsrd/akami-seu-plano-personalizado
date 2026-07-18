@@ -57,7 +57,11 @@ function Dashboard() {
 
       {!isActive && (
         <div className="rounded-xl border border-warning/30 bg-warning/10 p-4 text-sm">
-          Seu acesso está bloqueado. <Link to="/assinatura" className="font-semibold text-primary underline">Reativar assinatura</Link>
+          {subscription ? (
+            <>Seu acesso está bloqueado. <Link to="/assinatura" className="font-semibold text-primary underline">Reativar assinatura</Link></>
+          ) : (
+            <>Você ainda não iniciou seu teste grátis. <Link to="/assinatura" className="font-semibold text-primary underline">Começar teste grátis de 7 dias</Link></>
+          )}
         </div>
       )}
 
