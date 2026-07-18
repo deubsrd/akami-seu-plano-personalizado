@@ -16,12 +16,18 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermosRouteImport } from './routes/termos'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAlimentacaoRouteImport } from './routes/_authenticated/alimentacao'
 import { Route as AuthenticatedAmigoRouteImport } from './routes/_authenticated/amigo'
 import { Route as AuthenticatedAssinaturaRouteImport } from './routes/_authenticated/assinatura'
 import { Route as AuthenticatedCasalRouteImport } from './routes/_authenticated/casal'
+import { Route as AuthenticatedCoachRouteImport } from './routes/_authenticated/coach'
+import { Route as AuthenticatedCompartilharRouteImport } from './routes/_authenticated/compartilhar'
 import { Route as AuthenticatedComprasRouteImport } from './routes/_authenticated/compras'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDesafiosRouteImport } from './routes/_authenticated/desafios'
+import { Route as AuthenticatedFotoRouteImport } from './routes/_authenticated/foto'
+import { Route as AuthenticatedIndicacoesRouteImport } from './routes/_authenticated/indicacoes'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedTreinoRouteImport } from './routes/_authenticated/treino'
@@ -62,6 +68,11 @@ const TermosRoute = TermosRouteImport.update({
   path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAlimentacaoRoute =
   AuthenticatedAlimentacaoRouteImport.update({
     id: '/alimentacao',
@@ -83,6 +94,17 @@ const AuthenticatedCasalRoute = AuthenticatedCasalRouteImport.update({
   path: '/casal',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCoachRoute = AuthenticatedCoachRouteImport.update({
+  id: '/coach',
+  path: '/coach',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCompartilharRoute =
+  AuthenticatedCompartilharRouteImport.update({
+    id: '/compartilhar',
+    path: '/compartilhar',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedComprasRoute = AuthenticatedComprasRouteImport.update({
   id: '/compras',
   path: '/compras',
@@ -91,6 +113,21 @@ const AuthenticatedComprasRoute = AuthenticatedComprasRouteImport.update({
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDesafiosRoute = AuthenticatedDesafiosRouteImport.update({
+  id: '/desafios',
+  path: '/desafios',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFotoRoute = AuthenticatedFotoRouteImport.update({
+  id: '/foto',
+  path: '/foto',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedIndicacoesRoute = AuthenticatedIndicacoesRouteImport.update({
+  id: '/indicacoes',
+  path: '/indicacoes',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
@@ -127,12 +164,18 @@ export interface FileRoutesByFullPath {
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termos': typeof TermosRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/alimentacao': typeof AuthenticatedAlimentacaoRoute
   '/amigo': typeof AuthenticatedAmigoRoute
   '/assinatura': typeof AuthenticatedAssinaturaRoute
   '/casal': typeof AuthenticatedCasalRoute
+  '/coach': typeof AuthenticatedCoachRoute
+  '/compartilhar': typeof AuthenticatedCompartilharRoute
   '/compras': typeof AuthenticatedComprasRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/desafios': typeof AuthenticatedDesafiosRoute
+  '/foto': typeof AuthenticatedFotoRoute
+  '/indicacoes': typeof AuthenticatedIndicacoesRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/treino': typeof AuthenticatedTreinoRoute
@@ -146,12 +189,18 @@ export interface FileRoutesByTo {
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termos': typeof TermosRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/alimentacao': typeof AuthenticatedAlimentacaoRoute
   '/amigo': typeof AuthenticatedAmigoRoute
   '/assinatura': typeof AuthenticatedAssinaturaRoute
   '/casal': typeof AuthenticatedCasalRoute
+  '/coach': typeof AuthenticatedCoachRoute
+  '/compartilhar': typeof AuthenticatedCompartilharRoute
   '/compras': typeof AuthenticatedComprasRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/desafios': typeof AuthenticatedDesafiosRoute
+  '/foto': typeof AuthenticatedFotoRoute
+  '/indicacoes': typeof AuthenticatedIndicacoesRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/treino': typeof AuthenticatedTreinoRoute
@@ -167,12 +216,18 @@ export interface FileRoutesById {
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/termos': typeof TermosRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/alimentacao': typeof AuthenticatedAlimentacaoRoute
   '/_authenticated/amigo': typeof AuthenticatedAmigoRoute
   '/_authenticated/assinatura': typeof AuthenticatedAssinaturaRoute
   '/_authenticated/casal': typeof AuthenticatedCasalRoute
+  '/_authenticated/coach': typeof AuthenticatedCoachRoute
+  '/_authenticated/compartilhar': typeof AuthenticatedCompartilharRoute
   '/_authenticated/compras': typeof AuthenticatedComprasRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/desafios': typeof AuthenticatedDesafiosRoute
+  '/_authenticated/foto': typeof AuthenticatedFotoRoute
+  '/_authenticated/indicacoes': typeof AuthenticatedIndicacoesRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/treino': typeof AuthenticatedTreinoRoute
@@ -188,12 +243,18 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sitemap.xml'
     | '/termos'
+    | '/admin'
     | '/alimentacao'
     | '/amigo'
     | '/assinatura'
     | '/casal'
+    | '/coach'
+    | '/compartilhar'
     | '/compras'
     | '/dashboard'
+    | '/desafios'
+    | '/foto'
+    | '/indicacoes'
     | '/onboarding'
     | '/perfil'
     | '/treino'
@@ -207,12 +268,18 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sitemap.xml'
     | '/termos'
+    | '/admin'
     | '/alimentacao'
     | '/amigo'
     | '/assinatura'
     | '/casal'
+    | '/coach'
+    | '/compartilhar'
     | '/compras'
     | '/dashboard'
+    | '/desafios'
+    | '/foto'
+    | '/indicacoes'
     | '/onboarding'
     | '/perfil'
     | '/treino'
@@ -227,12 +294,18 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sitemap.xml'
     | '/termos'
+    | '/_authenticated/admin'
     | '/_authenticated/alimentacao'
     | '/_authenticated/amigo'
     | '/_authenticated/assinatura'
     | '/_authenticated/casal'
+    | '/_authenticated/coach'
+    | '/_authenticated/compartilhar'
     | '/_authenticated/compras'
     | '/_authenticated/dashboard'
+    | '/_authenticated/desafios'
+    | '/_authenticated/foto'
+    | '/_authenticated/indicacoes'
     | '/_authenticated/onboarding'
     | '/_authenticated/perfil'
     | '/_authenticated/treino'
@@ -302,6 +375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/alimentacao': {
       id: '/_authenticated/alimentacao'
       path: '/alimentacao'
@@ -330,6 +410,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCasalRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/coach': {
+      id: '/_authenticated/coach'
+      path: '/coach'
+      fullPath: '/coach'
+      preLoaderRoute: typeof AuthenticatedCoachRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/compartilhar': {
+      id: '/_authenticated/compartilhar'
+      path: '/compartilhar'
+      fullPath: '/compartilhar'
+      preLoaderRoute: typeof AuthenticatedCompartilharRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/compras': {
       id: '/_authenticated/compras'
       path: '/compras'
@@ -342,6 +436,27 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/desafios': {
+      id: '/_authenticated/desafios'
+      path: '/desafios'
+      fullPath: '/desafios'
+      preLoaderRoute: typeof AuthenticatedDesafiosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/foto': {
+      id: '/_authenticated/foto'
+      path: '/foto'
+      fullPath: '/foto'
+      preLoaderRoute: typeof AuthenticatedFotoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/indicacoes': {
+      id: '/_authenticated/indicacoes'
+      path: '/indicacoes'
+      fullPath: '/indicacoes'
+      preLoaderRoute: typeof AuthenticatedIndicacoesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/onboarding': {
@@ -383,24 +498,36 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAlimentacaoRoute: typeof AuthenticatedAlimentacaoRoute
   AuthenticatedAmigoRoute: typeof AuthenticatedAmigoRoute
   AuthenticatedAssinaturaRoute: typeof AuthenticatedAssinaturaRoute
   AuthenticatedCasalRoute: typeof AuthenticatedCasalRoute
+  AuthenticatedCoachRoute: typeof AuthenticatedCoachRoute
+  AuthenticatedCompartilharRoute: typeof AuthenticatedCompartilharRoute
   AuthenticatedComprasRoute: typeof AuthenticatedComprasRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDesafiosRoute: typeof AuthenticatedDesafiosRoute
+  AuthenticatedFotoRoute: typeof AuthenticatedFotoRoute
+  AuthenticatedIndicacoesRoute: typeof AuthenticatedIndicacoesRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedTreinoRoute: typeof AuthenticatedTreinoRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAlimentacaoRoute: AuthenticatedAlimentacaoRoute,
   AuthenticatedAmigoRoute: AuthenticatedAmigoRoute,
   AuthenticatedAssinaturaRoute: AuthenticatedAssinaturaRoute,
   AuthenticatedCasalRoute: AuthenticatedCasalRoute,
+  AuthenticatedCoachRoute: AuthenticatedCoachRoute,
+  AuthenticatedCompartilharRoute: AuthenticatedCompartilharRoute,
   AuthenticatedComprasRoute: AuthenticatedComprasRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDesafiosRoute: AuthenticatedDesafiosRoute,
+  AuthenticatedFotoRoute: AuthenticatedFotoRoute,
+  AuthenticatedIndicacoesRoute: AuthenticatedIndicacoesRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedTreinoRoute: AuthenticatedTreinoRoute,

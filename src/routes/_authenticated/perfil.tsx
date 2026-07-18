@@ -53,7 +53,7 @@ function ProfilePage() {
 
   async function exportData() {
     if (!user) return;
-    const tables = ["profiles", "intake_forms", "generated_plans", "shopping_list_items", "measurements_log", "workout_sessions", "nutrition_log", "water_log", "wellness_log"];
+    const tables = ["profiles", "intake_forms", "generated_plans", "shopping_list_items", "measurements_log", "workout_sessions", "nutrition_log", "water_log", "wellness_log", "coach_messages", "food_photo_logs"];
     const bundle: Record<string, any> = {};
     for (const t of tables) {
       const { data } = await supabase.from(t as any).select("*").eq("user_id", user.id);
@@ -110,6 +110,14 @@ function ProfilePage() {
           <div><Label>Cintura (cm)</Label><Input type="number" value={waist} onChange={(e) => setWaist(e.target.value)} /></div>
         </div>
         <Button className="mt-3 w-full" onClick={() => addMeasurement.mutate()} disabled={!weight && !waist}>Salvar</Button>
+      </div>
+
+      <div className="rounded-2xl border border-border bg-card p-5 shadow-card space-y-2">
+        <h3 className="font-semibold">Mais recursos</h3>
+        <Button asChild variant="outline" className="w-full justify-start"><Link to="/coach">💬 Coach de IA</Link></Button>
+        <Button asChild variant="outline" className="w-full justify-start"><Link to="/desafios">🏆 Desafios</Link></Button>
+        <Button asChild variant="outline" className="w-full justify-start"><Link to="/indicacoes">🎁 Indicações</Link></Button>
+        <Button asChild variant="outline" className="w-full justify-start"><Link to="/compartilhar">📤 Compartilhar evolução</Link></Button>
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-5 shadow-card space-y-2">

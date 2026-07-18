@@ -78,6 +78,8 @@ function NutritionPage() {
 
       <p className="text-sm text-muted-foreground">{nutrition.summary}</p>
 
+      <Button asChild variant="outline" className="w-full"><Link to="/foto">📷 Registrar refeição fora do cardápio por foto</Link></Button>
+
       <div className="space-y-3">
         {nutrition.daily_meals?.map((m: any, i: number) => (
           <div key={i} className="rounded-xl border border-border bg-card p-4 shadow-card">

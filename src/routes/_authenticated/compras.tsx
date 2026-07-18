@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { formatBRL } from "@/lib/formulas";
 import { AlertTriangle } from "lucide-react";
 
@@ -32,6 +33,25 @@ function ShoppingPage() {
       const { data } = await supabase.from("shopping_list_items").select("*").eq("user_id", user!.id).order("category");
       return data ?? [];
     },
+  });
+
+  const { data: profile } = useQuery({
+    queryKey: ["profile-city", user?.id],
+    enabled: !!user,
+    queryFn: async () => (await supabase.from("profiles").select("city").eq("id", user!.id).maybeSingle()).data,
+  });
+
+  const confirmPrice = useMutation({
+    mutationFn: async ({ item, price }: { item: any; price: number }) => {
+      await supabase.from("price_confirmations").insert({
+        confirmed_by: user!.id,
+        item_name: item.name,
+        city: profile?.city ?? null,
+        price_brl: price,
+      });
+      await supabase.from("shopping_list_items").update({ estimated_price_brl: price, is_purchased: true }).eq("id", item.id);
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["shopping-items"] }),
   });
 
   const toggle = useMutation({
@@ -105,7 +125,18 @@ function ShoppingPage() {
                     const p = Number(e.target.value);
                     if (!isNaN(p) && p !== Number(it.estimated_price_brl)) updatePrice.mutate({ id: it.id, price: p });
                   }}
+                  id={`price-${it.id}`}
                 />
+                <Button
+                  size="sm" variant="ghost" className="text-xs"
+                  onClick={() => {
+                    const input = document.getElementById(`price-${it.id}`) as HTMLInputElement | null;
+                    const p = Number(input?.value ?? it.estimated_price_brl);
+                    if (!isNaN(p)) confirmPrice.mutate({ item: it, price: p });
+                  }}
+                >
+                  Confirmar preço pago
+                </Button>
               </li>
             ))}
           </ul>

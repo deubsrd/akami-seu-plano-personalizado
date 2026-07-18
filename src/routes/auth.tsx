@@ -8,11 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
-type Search = { mode?: "login" | "signup" };
+type Search = { mode?: "login" | "signup"; ref?: string };
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>): Search => ({
     mode: s.mode === "signup" ? "signup" : "login",
+    ref: typeof s.ref === "string" ? s.ref : undefined,
   }),
   head: () => ({ meta: [{ title: "Entrar — Akami" }] }),
   component: AuthPage,
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const nav = useNavigate();
-  const { mode } = Route.useSearch();
+  const { mode, ref } = Route.useSearch();
   const isSignup = mode === "signup";
 
   const [email, setEmail] = useState("");
@@ -60,6 +61,9 @@ function AuthPage() {
             birth_date: birthDate,
             accepted_terms_at: new Date().toISOString(),
           }).eq("id", userData.user.id);
+          if (ref) {
+            await supabase.rpc("claim_referral", { p_code: ref });
+          }
         }
         toast.success("Conta criada! Vamos começar.");
         nav({ to: "/onboarding" });
