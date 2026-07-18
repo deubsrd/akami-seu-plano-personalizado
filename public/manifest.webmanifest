@@ -1,0 +1,12 @@
+{
+  "name": "Akami",
+  "short_name": "Akami",
+  "description": "Treino e dieta com IA, e lista de compras no seu orçamento.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6fbfb",
+  "theme_color": "#1a9ba6",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "64x64", "type": "image/x-icon" }
+  ]
+}
