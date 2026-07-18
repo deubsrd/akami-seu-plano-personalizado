@@ -106,6 +106,106 @@ export type Database = {
           },
         ]
       }
+      household_budget_settings: {
+        Row: {
+          amount_brl: number
+          household_id: string
+          period: string
+          updated_at: string
+        }
+        Insert: {
+          amount_brl?: number
+          household_id: string
+          period?: string
+          updated_at?: string
+        }
+        Update: {
+          amount_brl?: number
+          household_id?: string
+          period?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "household_budget_settings_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: true
+            referencedRelation: "households"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      household_members: {
+        Row: {
+          created_at: string
+          household_id: string
+          id: string
+          invited_email: string | null
+          joined_at: string | null
+          status: string
+          user_id: string | null
+          visibility: Json
+        }
+        Insert: {
+          created_at?: string
+          household_id: string
+          id?: string
+          invited_email?: string | null
+          joined_at?: string | null
+          status?: string
+          user_id?: string | null
+          visibility?: Json
+        }
+        Update: {
+          created_at?: string
+          household_id?: string
+          id?: string
+          invited_email?: string | null
+          joined_at?: string | null
+          status?: string
+          user_id?: string | null
+          visibility?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "household_members_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      households: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          invite_code: string
+          name: string
+          shared_budget: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          invite_code?: string
+          name?: string
+          shared_budget?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          invite_code?: string
+          name?: string
+          shared_budget?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       intake_forms: {
         Row: {
           created_at: string
@@ -319,117 +419,17 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "shopping_list_items_plan_id_fkey"
-            columns: ["plan_id"]
-            isOneToOne: false
-            referencedRelation: "generated_plans"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "shopping_list_items_household_id_fkey"
             columns: ["household_id"]
             isOneToOne: false
             referencedRelation: "households"
             referencedColumns: ["id"]
           },
-        ]
-      }
-      households: {
-        Row: {
-          created_at: string
-          created_by: string
-          id: string
-          invite_code: string
-          name: string
-          shared_budget: boolean
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          created_by: string
-          id?: string
-          invite_code?: string
-          name?: string
-          shared_budget?: boolean
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          created_by?: string
-          id?: string
-          invite_code?: string
-          name?: string
-          shared_budget?: boolean
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      household_members: {
-        Row: {
-          created_at: string
-          household_id: string
-          id: string
-          invited_email: string | null
-          joined_at: string | null
-          status: string
-          user_id: string | null
-          visibility: Json
-        }
-        Insert: {
-          created_at?: string
-          household_id: string
-          id?: string
-          invited_email?: string | null
-          joined_at?: string | null
-          status?: string
-          user_id?: string | null
-          visibility?: Json
-        }
-        Update: {
-          created_at?: string
-          household_id?: string
-          id?: string
-          invited_email?: string | null
-          joined_at?: string | null
-          status?: string
-          user_id?: string | null
-          visibility?: Json
-        }
-        Relationships: [
           {
-            foreignKeyName: "household_members_household_id_fkey"
-            columns: ["household_id"]
+            foreignKeyName: "shopping_list_items_plan_id_fkey"
+            columns: ["plan_id"]
             isOneToOne: false
-            referencedRelation: "households"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      household_budget_settings: {
-        Row: {
-          amount_brl: number
-          household_id: string
-          period: string
-          updated_at: string
-        }
-        Insert: {
-          amount_brl?: number
-          household_id: string
-          period?: string
-          updated_at?: string
-        }
-        Update: {
-          amount_brl?: number
-          household_id?: string
-          period?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "household_budget_settings_household_id_fkey"
-            columns: ["household_id"]
-            isOneToOne: true
-            referencedRelation: "households"
+            referencedRelation: "generated_plans"
             referencedColumns: ["id"]
           },
         ]
@@ -585,7 +585,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      accept_household_invite: {
+        Args: { p_invite_code: string }
+        Returns: string
+      }
+      is_household_member: {
+        Args: { p_household_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
