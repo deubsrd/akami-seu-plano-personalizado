@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { generateText, Output, NoObjectGeneratedError } from "ai";
+import { generateText, Output, NoObjectGeneratedError, NoOutputGeneratedError } from "ai";
 import { z } from "zod";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 import { calcMetrics, type MetricsInput } from "@/lib/formulas";
@@ -165,6 +165,14 @@ TAREFA: monte SOMENTE o cardápio e a lista de compras (nada de treino).
             finishReason: (e as any).finishReason,
           });
           throw new Error("A IA não conseguiu gerar um plano válido. Tente novamente.");
+        }
+        if (NoOutputGeneratedError.isInstance(e)) {
+          console.error(`[generatePlan:${label}] NoOutputGeneratedError:`, {
+            cause: (e as any).cause,
+            finishReason: (e as any).finishReason,
+            message: e.message,
+          });
+          throw new Error("A IA não retornou nenhum conteúdo para essa etapa. Tente novamente ou revise as respostas do questionário (especialmente lesões/condições médicas).");
         }
         console.error(`[generatePlan:${label}] erro inesperado:`, e);
         throw e;

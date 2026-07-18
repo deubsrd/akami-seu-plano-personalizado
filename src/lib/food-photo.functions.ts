@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { generateText, Output, NoObjectGeneratedError } from "ai";
+import { generateText, Output, NoObjectGeneratedError, NoOutputGeneratedError } from "ai";
 import { z } from "zod";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 
@@ -47,8 +47,14 @@ export const analyzeFoodPhoto = createServerFn({ method: "POST" })
       estimate = output;
     } catch (e) {
       if (NoObjectGeneratedError.isInstance(e)) {
+        console.error("[analyzeFoodPhoto] NoObjectGeneratedError:", { cause: e.cause, text: e.text?.slice(0, 1000), finishReason: (e as any).finishReason });
         throw new Error("Não conseguimos identificar o prato nessa foto. Tente outra foto ou registre manualmente.");
       }
+      if (NoOutputGeneratedError.isInstance(e)) {
+        console.error("[analyzeFoodPhoto] NoOutputGeneratedError:", { finishReason: (e as any).finishReason, message: e.message });
+        throw new Error("Não conseguimos analisar essa foto. Tente outra foto ou registre manualmente.");
+      }
+      console.error("[analyzeFoodPhoto] erro inesperado:", e);
       throw e;
     }
 

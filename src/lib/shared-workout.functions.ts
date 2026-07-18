@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { generateText, Output, NoObjectGeneratedError } from "ai";
+import { generateText, Output, NoObjectGeneratedError, NoOutputGeneratedError } from "ai";
 import { z } from "zod";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 
@@ -85,8 +85,14 @@ REGRAS:
       plan = output;
     } catch (e) {
       if (NoObjectGeneratedError.isInstance(e)) {
+        console.error("[generateSharedWorkout] NoObjectGeneratedError:", { cause: e.cause, text: e.text?.slice(0, 1000), finishReason: (e as any).finishReason });
         throw new Error("A IA não conseguiu gerar o treino combinado. Tente novamente.");
       }
+      if (NoOutputGeneratedError.isInstance(e)) {
+        console.error("[generateSharedWorkout] NoOutputGeneratedError:", { finishReason: (e as any).finishReason, message: e.message });
+        throw new Error("A IA não retornou conteúdo para o treino combinado. Tente novamente.");
+      }
+      console.error("[generateSharedWorkout] erro inesperado:", e);
       throw e;
     }
 
