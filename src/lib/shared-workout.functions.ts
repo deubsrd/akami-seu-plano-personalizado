@@ -79,6 +79,7 @@ REGRAS:
       const { output } = await generateText({
         model,
         prompt,
+        maxOutputTokens: 3000,
         output: Output.object({ schema: SharedWorkoutSchema }),
       });
       plan = output;

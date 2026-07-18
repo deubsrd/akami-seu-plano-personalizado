@@ -37,7 +37,7 @@ PLANO ATUAL: ${plan ? JSON.stringify(plan) : "a pessoa ainda não gerou um plano
       { role: "user" as const, content: data.message },
     ];
 
-    const { text } = await generateText({ model, messages });
+    const { text } = await generateText({ model, messages, maxOutputTokens: 1500 });
 
     await supabase.from("coach_messages").insert({ user_id: userId, role: "assistant", content: text });
 

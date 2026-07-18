@@ -42,6 +42,7 @@ export const analyzeFoodPhoto = createServerFn({ method: "POST" })
           },
         ],
         output: Output.object({ schema: FoodEstimateSchema }),
+        maxOutputTokens: 1000,
       });
       estimate = output;
     } catch (e) {

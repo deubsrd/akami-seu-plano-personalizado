@@ -141,13 +141,20 @@ REGRAS:
       const { output } = await generateText({
         model,
         prompt,
+        maxOutputTokens: 8000,
         output: Output.object({ schema: PlanSchema }),
       });
       plan = output;
     } catch (e) {
       if (NoObjectGeneratedError.isInstance(e)) {
+        console.error("[generatePlan] NoObjectGeneratedError:", {
+          cause: e.cause,
+          text: e.text?.slice(0, 2000),
+          finishReason: (e as any).finishReason,
+        });
         throw new Error("A IA não conseguiu gerar um plano válido. Tente novamente.");
       }
+      console.error("[generatePlan] erro inesperado:", e);
       throw e;
     }
 
