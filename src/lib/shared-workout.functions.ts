@@ -55,7 +55,7 @@ export const generateSharedWorkout = createServerFn({ method: "POST" })
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("LOVABLE_API_KEY não configurado");
     const gateway = createLovableAiGatewayProvider(apiKey);
-    const model = gateway("google/gemini-3.5-flash");
+    const model = gateway("google/gemini-2.5-flash");
 
     const prompt = `Você é um assistente de treino. NUNCA diagnostique; apenas oriente com base nos planos individuais. Responda em português (Brasil).
 
@@ -80,6 +80,7 @@ REGRAS:
         model,
         prompt,
         maxOutputTokens: 3000,
+        providerOptions: { lovable: { reasoningEffort: "low" } },
         output: Output.object({ schema: SharedWorkoutSchema }),
       });
       plan = output;

@@ -20,7 +20,7 @@ export const analyzeFoodPhoto = createServerFn({ method: "POST" })
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("LOVABLE_API_KEY não configurado");
     const gateway = createLovableAiGatewayProvider(apiKey);
-    const model = gateway("google/gemini-3.5-flash");
+    const model = gateway("google/gemini-2.5-flash");
 
     let estimate;
     try {
@@ -43,6 +43,7 @@ export const analyzeFoodPhoto = createServerFn({ method: "POST" })
         ],
         output: Output.object({ schema: FoodEstimateSchema }),
         maxOutputTokens: 1000,
+        providerOptions: { lovable: { reasoningEffort: "low" } },
       });
       estimate = output;
     } catch (e) {

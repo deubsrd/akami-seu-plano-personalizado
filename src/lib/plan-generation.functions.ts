@@ -112,7 +112,7 @@ export const generatePlan = createServerFn({ method: "POST" })
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("LOVABLE_API_KEY não configurado");
     const gateway = createLovableAiGatewayProvider(apiKey);
-    const model = gateway("google/gemini-3.5-flash");
+    const model = gateway("google/gemini-2.5-flash");
 
     const budgetMonthly = data.budget_period === "monthly" ? data.budget_amount_brl : data.budget_amount_brl * 4.33;
     const budgetWeekly = data.budget_period === "weekly" ? data.budget_amount_brl : data.budget_amount_brl / 4.33;
@@ -154,6 +154,7 @@ TAREFA: monte SOMENTE o cardápio e a lista de compras (nada de treino).
           model,
           prompt,
           maxOutputTokens: 4000,
+          providerOptions: { lovable: { reasoningEffort: "low" } },
           output: Output.object({ schema }),
         });
         return output;

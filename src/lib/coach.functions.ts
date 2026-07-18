@@ -21,7 +21,7 @@ export const coachReply = createServerFn({ method: "POST" })
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("LOVABLE_API_KEY não configurado");
     const gateway = createLovableAiGatewayProvider(apiKey);
-    const model = gateway("google/gemini-3.5-flash");
+    const model = gateway("google/gemini-2.5-flash");
 
     const systemPrompt = `Você é o Coach do Akami: um assistente de treino e nutrição, em português (Brasil), acolhedor e direto.
 NUNCA diagnostique condições médicas. Quando o assunto for clínico (dor persistente, condição de saúde, medicação), sempre reforce que isso não substitui um profissional de saúde e sugira procurar um.
@@ -37,7 +37,12 @@ PLANO ATUAL: ${plan ? JSON.stringify(plan) : "a pessoa ainda não gerou um plano
       { role: "user" as const, content: data.message },
     ];
 
-    const { text } = await generateText({ model, messages, maxOutputTokens: 1500 });
+    const { text } = await generateText({
+      model,
+      messages,
+      maxOutputTokens: 1500,
+      providerOptions: { lovable: { reasoningEffort: "low" } },
+    });
 
     await supabase.from("coach_messages").insert({ user_id: userId, role: "assistant", content: text });
 
