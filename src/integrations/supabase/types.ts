@@ -580,6 +580,80 @@ export type Database = {
           },
         ]
       }
+      friend_connections: {
+        Row: {
+          addressee_id: string
+          created_at: string
+          id: string
+          requester_id: string
+          responded_at: string | null
+          score_addressee: number | null
+          score_requester: number | null
+          scheduled_for: string | null
+          status: string
+        }
+        Insert: {
+          addressee_id: string
+          created_at?: string
+          id?: string
+          requester_id: string
+          responded_at?: string | null
+          score_addressee?: number | null
+          score_requester?: number | null
+          scheduled_for?: string | null
+          status?: string
+        }
+        Update: {
+          addressee_id?: string
+          created_at?: string
+          id?: string
+          requester_id?: string
+          responded_at?: string | null
+          score_addressee?: number | null
+          score_requester?: number | null
+          scheduled_for?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      shared_workouts: {
+        Row: {
+          connection_id: string
+          created_at: string
+          created_by: string
+          id: string
+          scheduled_for: string | null
+          status: string
+          workout_plan: Json
+        }
+        Insert: {
+          connection_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          scheduled_for?: string | null
+          status?: string
+          workout_plan: Json
+        }
+        Update: {
+          connection_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          scheduled_for?: string | null
+          status?: string
+          workout_plan?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shared_workouts_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "friend_connections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -592,6 +666,14 @@ export type Database = {
       is_household_member: {
         Args: { p_household_id: string }
         Returns: boolean
+      }
+      is_friend_connection_member: {
+        Args: { p_connection_id: string }
+        Returns: boolean
+      }
+      find_user_by_email: {
+        Args: { p_email: string }
+        Returns: { id: string; full_name: string | null }[]
       }
     }
     Enums: {

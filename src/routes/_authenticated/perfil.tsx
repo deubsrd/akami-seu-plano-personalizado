@@ -98,6 +98,12 @@ function ProfilePage() {
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
+        <h3 className="font-semibold">Treino com amigo</h3>
+        <p className="mt-1 text-sm text-muted-foreground">Conecte-se com alguém e gerem um treino combinado, com carga individualizada pra cada um.</p>
+        <Button asChild className="mt-3 w-full" variant="outline"><Link to="/amigo">Conectar com um amigo</Link></Button>
+      </div>
+
+      <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
         <h3 className="font-semibold">Registrar medida</h3>
         <div className="mt-3 grid grid-cols-2 gap-3">
           <div><Label>Peso (kg)</Label><Input type="number" step="0.1" value={weight} onChange={(e) => setWeight(e.target.value)} /></div>
