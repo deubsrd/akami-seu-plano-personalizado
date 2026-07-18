@@ -59,6 +59,151 @@ export type Database = {
         }
         Relationships: []
       }
+      challenge_participants: {
+        Row: {
+          challenge_id: string
+          id: string
+          joined_at: string
+          progress: number
+          user_id: string
+        }
+        Insert: {
+          challenge_id: string
+          id?: string
+          joined_at?: string
+          progress?: number
+          user_id: string
+        }
+        Update: {
+          challenge_id?: string
+          id?: string
+          joined_at?: string
+          progress?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_participants_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "group_challenges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coach_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      food_photo_logs: {
+        Row: {
+          confirmed: boolean
+          created_at: string
+          estimated_calories: number | null
+          estimated_carbs_g: number | null
+          estimated_description: string | null
+          estimated_fat_g: number | null
+          estimated_protein_g: number | null
+          id: string
+          logged_on: string
+          nutrition_log_id: string | null
+          photo_path: string
+          user_id: string
+        }
+        Insert: {
+          confirmed?: boolean
+          created_at?: string
+          estimated_calories?: number | null
+          estimated_carbs_g?: number | null
+          estimated_description?: string | null
+          estimated_fat_g?: number | null
+          estimated_protein_g?: number | null
+          id?: string
+          logged_on?: string
+          nutrition_log_id?: string | null
+          photo_path: string
+          user_id: string
+        }
+        Update: {
+          confirmed?: boolean
+          created_at?: string
+          estimated_calories?: number | null
+          estimated_carbs_g?: number | null
+          estimated_description?: string | null
+          estimated_fat_g?: number | null
+          estimated_protein_g?: number | null
+          id?: string
+          logged_on?: string
+          nutrition_log_id?: string | null
+          photo_path?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_photo_logs_nutrition_log_id_fkey"
+            columns: ["nutrition_log_id"]
+            isOneToOne: false
+            referencedRelation: "nutrition_log"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      friend_connections: {
+        Row: {
+          addressee_id: string
+          created_at: string
+          id: string
+          requester_id: string
+          responded_at: string | null
+          scheduled_for: string | null
+          score_addressee: number | null
+          score_requester: number | null
+          status: string
+        }
+        Insert: {
+          addressee_id: string
+          created_at?: string
+          id?: string
+          requester_id: string
+          responded_at?: string | null
+          scheduled_for?: string | null
+          score_addressee?: number | null
+          score_requester?: number | null
+          status?: string
+        }
+        Update: {
+          addressee_id?: string
+          created_at?: string
+          id?: string
+          requester_id?: string
+          responded_at?: string | null
+          scheduled_for?: string | null
+          score_addressee?: number | null
+          score_requester?: number | null
+          status?: string
+        }
+        Relationships: []
+      }
       generated_plans: {
         Row: {
           created_at: string
@@ -105,6 +250,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      group_challenges: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          ends_on: string
+          id: string
+          metric_key: string
+          scope: string
+          starts_on: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_on: string
+          id?: string
+          metric_key: string
+          scope?: string
+          starts_on: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_on?: string
+          id?: string
+          metric_key?: string
+          scope?: string
+          starts_on?: string
+          title?: string
+        }
+        Relationships: []
       }
       household_budget_settings: {
         Row: {
@@ -314,6 +495,36 @@ export type Database = {
         }
         Relationships: []
       }
+      price_confirmations: {
+        Row: {
+          city: string | null
+          confirmed_at: string
+          confirmed_by: string
+          id: string
+          item_name: string
+          postal_code: string | null
+          price_brl: number
+        }
+        Insert: {
+          city?: string | null
+          confirmed_at?: string
+          confirmed_by: string
+          id?: string
+          item_name: string
+          postal_code?: string | null
+          price_brl: number
+        }
+        Update: {
+          city?: string | null
+          confirmed_at?: string
+          confirmed_by?: string
+          id?: string
+          item_name?: string
+          postal_code?: string | null
+          price_brl?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           accepted_terms_at: string | null
@@ -323,6 +534,7 @@ export type Database = {
           dark_mode: boolean
           full_name: string | null
           id: string
+          is_admin: boolean
           postal_code: string | null
           updated_at: string
         }
@@ -334,6 +546,7 @@ export type Database = {
           dark_mode?: boolean
           full_name?: string | null
           id: string
+          is_admin?: boolean
           postal_code?: string | null
           updated_at?: string
         }
@@ -345,6 +558,7 @@ export type Database = {
           dark_mode?: boolean
           full_name?: string | null
           id?: string
+          is_admin?: boolean
           postal_code?: string | null
           updated_at?: string
         }
@@ -373,6 +587,80 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      referrals: {
+        Row: {
+          code: string
+          converted_at: string | null
+          created_at: string
+          id: string
+          invited_email: string | null
+          invited_user_id: string | null
+          referrer_id: string
+          reward_months_credited: number
+          status: string
+        }
+        Insert: {
+          code?: string
+          converted_at?: string | null
+          created_at?: string
+          id?: string
+          invited_email?: string | null
+          invited_user_id?: string | null
+          referrer_id: string
+          reward_months_credited?: number
+          status?: string
+        }
+        Update: {
+          code?: string
+          converted_at?: string | null
+          created_at?: string
+          id?: string
+          invited_email?: string | null
+          invited_user_id?: string | null
+          referrer_id?: string
+          reward_months_credited?: number
+          status?: string
+        }
+        Relationships: []
+      }
+      shared_workouts: {
+        Row: {
+          connection_id: string
+          created_at: string
+          created_by: string
+          id: string
+          scheduled_for: string | null
+          status: string
+          workout_plan: Json
+        }
+        Insert: {
+          connection_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          scheduled_for?: string | null
+          status?: string
+          workout_plan: Json
+        }
+        Update: {
+          connection_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          scheduled_for?: string | null
+          status?: string
+          workout_plan?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shared_workouts_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "friend_connections"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       shopping_list_items: {
         Row: {
@@ -500,6 +788,33 @@ export type Database = {
         }
         Relationships: []
       }
+      wearable_connections: {
+        Row: {
+          created_at: string
+          id: string
+          last_synced_at: string | null
+          provider: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_synced_at?: string | null
+          provider: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_synced_at?: string | null
+          provider?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       wellness_log: {
         Row: {
           created_at: string
@@ -588,6 +903,26 @@ export type Database = {
       accept_household_invite: {
         Args: { p_invite_code: string }
         Returns: string
+      }
+      admin_get_metrics: { Args: never; Returns: Json }
+      claim_referral: { Args: { p_code: string }; Returns: boolean }
+      find_user_by_email: {
+        Args: { p_email: string }
+        Returns: {
+          full_name: string
+          id: string
+        }[]
+      }
+      get_regional_price: {
+        Args: { p_city: string; p_item_name: string }
+        Returns: {
+          avg_price: number
+          sample_count: number
+        }[]
+      }
+      is_friend_connection_member: {
+        Args: { p_connection_id: string }
+        Returns: boolean
       }
       is_household_member: {
         Args: { p_household_id: string }
