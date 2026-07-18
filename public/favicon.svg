@@ -1,0 +1,8 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#0A2120"/>
+  <circle cx="256" cy="248" r="164" fill="none" stroke="#1F5654" stroke-width="44"/>
+  <circle cx="256" cy="248" r="164" fill="none" stroke="#B5654F" stroke-width="44"
+    stroke-dasharray="1030" stroke-dashoffset="310" stroke-linecap="round"
+    transform="rotate(-90 256 248)"/>
+  <text x="256" y="300" text-anchor="middle" font-family="Noto Serif CJK JP" font-weight="700" font-size="190" fill="#F3EEE6">赤</text>
+</svg>
