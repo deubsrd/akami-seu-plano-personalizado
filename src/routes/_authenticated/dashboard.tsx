@@ -115,7 +115,7 @@ function Card({ icon, label, value, sub }: { icon?: React.ReactNode; label: stri
   return (
     <div className="rounded-xl border border-border bg-card p-4 shadow-card">
       <div className="flex items-center gap-1.5 text-xs text-muted-foreground">{icon}{label}</div>
-      <div className="mt-1 text-2xl font-bold">{value}</div>
+      <div className="mt-1 text-2xl font-bold font-mono-data">{value}</div>
       {sub && <div className="text-xs text-muted-foreground">{sub}</div>}
     </div>
   );

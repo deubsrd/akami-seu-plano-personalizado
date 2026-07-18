@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
+import { AkamiMark } from "@/components/akami-mark";
 
 type Search = { mode?: "login" | "signup"; ref?: string };
 
@@ -87,7 +88,8 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-primary-soft/40 to-background px-4 py-8">
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-card">
         <Link to="/" className="text-sm text-muted-foreground">← Voltar</Link>
-        <h1 className="mt-3 text-2xl font-semibold">
+        <AkamiMark className="mt-3 h-9 w-9" />
+        <h1 className="mt-2 text-2xl font-semibold">
           {isSignup ? "Criar sua conta" : "Entrar no Akami"}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">

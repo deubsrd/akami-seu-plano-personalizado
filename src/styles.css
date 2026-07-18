@@ -35,67 +35,69 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 :root {
   --radius: 0.875rem;
-  /* Verde-azulado / teal */
-  --background: oklch(0.99 0.008 180);
-  --foreground: oklch(0.24 0.03 200);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.24 0.03 200);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.24 0.03 200);
-  --primary: oklch(0.55 0.11 190);
-  --primary-foreground: oklch(0.99 0.005 180);
-  --primary-soft: oklch(0.95 0.03 190);
-  --secondary: oklch(0.96 0.02 190);
-  --secondary-foreground: oklch(0.32 0.06 200);
-  --muted: oklch(0.96 0.01 190);
-  --muted-foreground: oklch(0.5 0.03 200);
-  --accent: oklch(0.72 0.14 175);
-  --accent-foreground: oklch(0.15 0.02 200);
-  --destructive: oklch(0.6 0.22 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --success: oklch(0.65 0.15 155);
-  --success-foreground: oklch(0.99 0 0);
-  --warning: oklch(0.78 0.15 75);
-  --warning-foreground: oklch(0.2 0.05 60);
-  --border: oklch(0.92 0.015 190);
-  --input: oklch(0.94 0.015 190);
-  --ring: oklch(0.55 0.11 190);
+  /* Identidade Akami — verde-azulado profundo + rose/terracota como cor de ação */
+  --background: #0A2120;
+  --foreground: #F3EEE6;
+  --card: #123433;
+  --card-foreground: #F3EEE6;
+  --popover: #123433;
+  --popover-foreground: #F3EEE6;
+  --primary: #B5654F;
+  --primary-foreground: #0A2120;
+  --primary-soft: #2E2019;
+  --secondary: #1F5654;
+  --secondary-foreground: #F3EEE6;
+  --muted: #16403F;
+  --muted-foreground: #A9BDBA;
+  --accent: #D9A08C;
+  --accent-foreground: #0A2120;
+  --destructive: #D14B3E;
+  --destructive-foreground: #F3EEE6;
+  --success: #4C9A7D;
+  --success-foreground: #0A2120;
+  --warning: #D9A354;
+  --warning-foreground: #201505;
+  --border: rgba(243, 238, 230, 0.14);
+  --input: rgba(243, 238, 230, 0.18);
+  --ring: #B5654F;
 
-  --gradient-hero: linear-gradient(135deg, oklch(0.55 0.11 190) 0%, oklch(0.68 0.13 170) 100%);
-  --gradient-soft: linear-gradient(180deg, oklch(0.98 0.02 190) 0%, oklch(1 0 0) 100%);
-  --shadow-card: 0 1px 2px oklch(0.24 0.03 200 / 0.05), 0 8px 24px -12px oklch(0.55 0.11 190 / 0.15);
-  --shadow-lg: 0 10px 40px -12px oklch(0.55 0.11 190 / 0.25);
+  --gradient-hero: linear-gradient(135deg, #123433 0%, #1F5654 100%);
+  --gradient-soft: linear-gradient(180deg, #123433 0%, #0A2120 100%);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 40px -12px rgba(0, 0, 0, 0.6);
 }
 
 .dark {
-  --background: oklch(0.18 0.02 200);
-  --foreground: oklch(0.96 0.01 190);
-  --card: oklch(0.22 0.025 200);
-  --card-foreground: oklch(0.96 0.01 190);
-  --popover: oklch(0.22 0.025 200);
-  --popover-foreground: oklch(0.96 0.01 190);
-  --primary: oklch(0.72 0.13 180);
-  --primary-foreground: oklch(0.18 0.02 200);
-  --primary-soft: oklch(0.3 0.05 190);
-  --secondary: oklch(0.28 0.03 200);
-  --secondary-foreground: oklch(0.96 0.01 190);
-  --muted: oklch(0.26 0.02 200);
-  --muted-foreground: oklch(0.68 0.02 190);
-  --accent: oklch(0.6 0.14 175);
-  --accent-foreground: oklch(0.15 0.02 200);
-  --destructive: oklch(0.65 0.2 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --success: oklch(0.7 0.15 155);
-  --success-foreground: oklch(0.15 0.02 200);
-  --warning: oklch(0.78 0.15 75);
-  --warning-foreground: oklch(0.2 0.05 60);
-  --border: oklch(0.3 0.02 200);
-  --input: oklch(0.3 0.02 200);
-  --ring: oklch(0.72 0.13 180);
+  --background: #071615;
+  --foreground: #F3EEE6;
+  --card: #0E2827;
+  --card-foreground: #F3EEE6;
+  --popover: #0E2827;
+  --popover-foreground: #F3EEE6;
+  --primary: #C27860;
+  --primary-foreground: #071615;
+  --primary-soft: #241813;
+  --secondary: #1A4A48;
+  --secondary-foreground: #F3EEE6;
+  --muted: #112E2D;
+  --muted-foreground: #93A9A6;
+  --accent: #D9A08C;
+  --accent-foreground: #071615;
+  --destructive: #D95B4E;
+  --destructive-foreground: #F3EEE6;
+  --success: #57AB8B;
+  --success-foreground: #071615;
+  --warning: #D9A354;
+  --warning-foreground: #201505;
+  --border: rgba(243, 238, 230, 0.1);
+  --input: rgba(243, 238, 230, 0.14);
+  --ring: #C27860;
 }
 
 @layer base {
@@ -107,8 +109,14 @@
     font-family: var(--font-sans);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
 }
 
+@utility font-display { font-family: var(--font-display); }
+@utility font-mono-data { font-family: var(--font-mono); }
 @utility gradient-hero { background: var(--gradient-hero); }
 @utility shadow-card { box-shadow: var(--shadow-card); }
 @utility shadow-lg-teal { box-shadow: var(--shadow-lg); }

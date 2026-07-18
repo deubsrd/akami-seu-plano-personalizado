@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles, ShoppingCart, Dumbbell, Salad } from "lucide-react";
+import { AkamiMark } from "@/components/akami-mark";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -12,8 +13,8 @@ function LandingPage() {
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-center gap-2 text-lg font-semibold">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg gradient-hero text-primary-foreground">A</span>
+          <Link to="/" className="flex items-center gap-2 text-lg font-semibold font-display">
+            <AkamiMark className="h-8 w-8" />
             Akami
           </Link>
           <div className="flex items-center gap-2">
