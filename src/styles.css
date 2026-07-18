@@ -117,6 +117,6 @@
 
 @utility font-display { font-family: var(--font-display); }
 @utility font-mono-data { font-family: var(--font-mono); }
-@utility gradient-hero { background: var(--gradient-hero); }
+@utility gradient-hero { background-image: var(--gradient-hero); }
 @utility shadow-card { box-shadow: var(--shadow-card); }
 @utility shadow-lg-teal { box-shadow: var(--shadow-lg); }
