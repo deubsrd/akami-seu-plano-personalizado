@@ -920,14 +920,6 @@ export type Database = {
           sample_count: number
         }[]
       }
-      is_friend_connection_member: {
-        Args: { p_connection_id: string }
-        Returns: boolean
-      }
-      is_household_member: {
-        Args: { p_household_id: string }
-        Returns: boolean
-      }
     }
     Enums: {
       [_ in never]: never
