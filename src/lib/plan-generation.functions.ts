@@ -40,7 +40,7 @@ const IntakeSchema = z.object({
   cycle_notes: z.string().optional(),
 });
 
-const PlanSchema = z.object({
+const TrainingResultSchema = z.object({
   training_plan: z.object({
     summary: z.string(),
     weekly_split: z.array(z.object({
@@ -56,6 +56,10 @@ const PlanSchema = z.object({
     })),
     progression: z.string(),
   }),
+  warnings: z.array(z.string()),
+});
+
+const NutritionResultSchema = z.object({
   nutrition_plan: z.object({
     summary: z.string(),
     daily_meals: z.array(z.object({
@@ -113,7 +117,7 @@ export const generatePlan = createServerFn({ method: "POST" })
     const budgetMonthly = data.budget_period === "monthly" ? data.budget_amount_brl : data.budget_amount_brl * 4.33;
     const budgetWeekly = data.budget_period === "weekly" ? data.budget_amount_brl : data.budget_amount_brl / 4.33;
 
-    const prompt = `Você é um assistente de treino e nutrição. NUNCA diagnostique; apenas oriente com base nos números e responda em português (Brasil).
+    const commonHeader = `Você é um assistente de treino e nutrição. NUNCA diagnostique; apenas oriente com base nos números e responda em português (Brasil).
 
 DADOS DA PESSOA:
 ${JSON.stringify(data, null, 2)}
@@ -122,41 +126,61 @@ MÉTRICAS CALCULADAS (use exatamente estas):
 - IMC: ${metrics.imc} (${metrics.imc_classificacao})
 - TMB: ${metrics.tmb_kcal} kcal, GET: ${metrics.get_kcal} kcal
 - Meta calórica diária: ${metrics.meta_kcal} kcal
-- Proteína: ${metrics.proteina_g} g, Gordura: ${metrics.gordura_g} g, Carbo: ${metrics.carbo_g} g
+- Proteína: ${metrics.proteina_g} g, Gordura: ${metrics.gordura_g} g, Carbo: ${metrics.carbo_g} g`;
+
+    const trainingPrompt = `${commonHeader}
+
+TAREFA: monte SOMENTE o treino (nada de dieta).
+1. ${data.days_per_week} dias/semana, sessões de ~${data.minutes_per_session} min, adaptado a ${data.training_location} e nível ${data.training_experience}.
+2. Respeite lesões (${data.injuries || "nenhuma"}) e condições (${data.medical_conditions || "nenhuma"}).
+3. Em "warnings", inclua só avisos relacionados ao treino (ex.: procurar médico antes de iniciar, sinais de alerta por lesão/condição).
+4. Retorne SOMENTE o objeto conforme o schema. Seja direto, sem texto fora do schema.`;
+
+    const nutritionPrompt = `${commonHeader}
 
 ORÇAMENTO PARA ALIMENTAÇÃO:
 - Semanal: R$ ${budgetWeekly.toFixed(2)}
 - Mensal: R$ ${budgetMonthly.toFixed(2)}
 
-REGRAS:
-1. Monte um treino em ${data.days_per_week} dias/semana, sessões de ~${data.minutes_per_session} min, adaptado a ${data.training_location} e nível ${data.training_experience}.
-2. Respeite lesões (${data.injuries || "nenhuma"}) e condições (${data.medical_conditions || "nenhuma"}).
-3. Cardápio com ${data.meals_per_day} refeições/dia respeitando kcal e macros acima, restrições (${data.restrictions || "nenhuma"}) e preferências.
-4. Lista de compras SEMANAL consolidada por categoria (hortifrúti, proteínas, grãos, laticínios, outros) com preços médios de referência no Brasil em reais. Some tudo e compare com R$ ${budgetWeekly.toFixed(2)}. Se estourar, alerte em budget_note com sugestões de substituição.
-5. Em "warnings", inclua avisos importantes com base nos dados (ex.: procurar médico se há condições, sinais de alerta, etc.).
-6. Retorne SOMENTE o objeto conforme o schema.`;
+TAREFA: monte SOMENTE o cardápio e a lista de compras (nada de treino).
+1. Cardápio com ${data.meals_per_day} refeições/dia respeitando kcal e macros acima, restrições (${data.restrictions || "nenhuma"}) e preferências (não gosta de: ${data.disliked_foods || "nada informado"}).
+2. Lista de compras SEMANAL consolidada por categoria (hortifrúti, proteínas, grãos, laticínios, outros) com preços médios de referência no Brasil em reais. Some tudo e compare com R$ ${budgetWeekly.toFixed(2)}. Se estourar, alerte em budget_note com sugestões de substituição.
+3. Em "warnings", inclua só avisos relacionados à alimentação (ex.: restrições, condições que afetem a dieta).
+4. Retorne SOMENTE o objeto conforme o schema. Seja direto, sem texto fora do schema.`;
 
-    let plan;
-    try {
-      const { output } = await generateText({
-        model,
-        prompt,
-        maxOutputTokens: 8000,
-        output: Output.object({ schema: PlanSchema }),
-      });
-      plan = output;
-    } catch (e) {
-      if (NoObjectGeneratedError.isInstance(e)) {
-        console.error("[generatePlan] NoObjectGeneratedError:", {
-          cause: e.cause,
-          text: e.text?.slice(0, 2000),
-          finishReason: (e as any).finishReason,
+    async function runPart<T>(label: string, prompt: string, schema: z.ZodType<T>): Promise<T> {
+      try {
+        const { output } = await generateText({
+          model,
+          prompt,
+          maxOutputTokens: 4000,
+          output: Output.object({ schema }),
         });
-        throw new Error("A IA não conseguiu gerar um plano válido. Tente novamente.");
+        return output;
+      } catch (e) {
+        if (NoObjectGeneratedError.isInstance(e)) {
+          console.error(`[generatePlan:${label}] NoObjectGeneratedError:`, {
+            cause: e.cause,
+            text: e.text?.slice(0, 2000),
+            finishReason: (e as any).finishReason,
+          });
+          throw new Error("A IA não conseguiu gerar um plano válido. Tente novamente.");
+        }
+        console.error(`[generatePlan:${label}] erro inesperado:`, e);
+        throw e;
       }
-      console.error("[generatePlan] erro inesperado:", e);
-      throw e;
     }
+
+    const [trainingResult, nutritionResult] = await Promise.all([
+      runPart("training", trainingPrompt, TrainingResultSchema),
+      runPart("nutrition", nutritionPrompt, NutritionResultSchema),
+    ]);
+
+    const plan = {
+      training_plan: trainingResult.training_plan,
+      nutrition_plan: nutritionResult.nutrition_plan,
+      warnings: [...trainingResult.warnings, ...nutritionResult.warnings],
+    };
 
     // Desativa plano anterior e salva novo
     await supabase.from("generated_plans").update({ is_active: false }).eq("user_id", userId).eq("is_active", true);
